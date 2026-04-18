@@ -1,0 +1,125 @@
+/* src/components/recommendations/FSDPRecommendations.css */
+
+.fsdp-container {
+  margin-top: 50px;
+  padding-top: 40px;
+  border-top: 2px solid #f1f5f9;
+}
+
+.fsdp-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 25px;
+}
+
+.fsdp-icon {
+  font-size: 1.8rem;
+  background-color: #fffbeb;
+  padding: 10px;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(245, 158, 11, 0.2);
+}
+
+.fsdp-title h3 {
+  margin: 0;
+  font-size: 1.4rem;
+  color: #0f172a;
+}
+
+.fsdp-title p {
+  margin: 4px 0 0 0;
+  font-size: 0.95rem;
+  color: #d35400; /* Highlight color for urgency/seasonality */
+  font-weight: 600;
+}
+
+/* Horizontal Scroll for Mobile, Grid for Desktop */
+.fsdp-scroll-wrapper {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  padding-bottom: 15px;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Hide scrollbar for a cleaner look */
+.fsdp-scroll-wrapper::-webkit-scrollbar {
+  height: 6px;
+}
+.fsdp-scroll-wrapper::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1;
+  border-radius: 10px;
+}
+
+.fsdp-card {
+  min-width: 220px;
+  flex: 0 0 auto;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 15px;
+  scroll-snap-align: start;
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  flex-direction: column;
+}
+
+.fsdp-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 15px rgba(0,0,0,0.05);
+  border-color: #cbd5e1;
+}
+
+.fsdp-img-box {
+  height: 120px;
+  background-color: #f8fafc;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3.5rem;
+  margin-bottom: 15px;
+}
+
+.fsdp-card h4 {
+  margin: 0 0 5px 0;
+  font-size: 1rem;
+  color: #0f172a;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fsdp-card .price {
+  font-weight: 800;
+  color: #0f172a;
+  margin-bottom: 15px;
+}
+
+.fsdp-btn {
+  margin-top: auto;
+  width: 100%;
+  padding: 10px;
+  background-color: white;
+  border: 1px solid #0f172a;
+  color: #0f172a;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.fsdp-btn:hover {
+  background-color: #0f172a;
+  color: white;
+}
+
+@media (min-width: 768px) {
+  .fsdp-scroll-wrapper {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    overflow-x: visible;
+  }
+}

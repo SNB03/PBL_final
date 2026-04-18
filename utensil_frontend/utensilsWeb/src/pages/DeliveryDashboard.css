@@ -1,0 +1,189 @@
+/* src/pages/DeliveryDashboard.css */
+
+.delivery-app-container {
+  background-color: #f8fafc;
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+  padding-bottom: 80px;
+}
+
+.delivery-header {
+  background-color: #0f172a;
+  color: white;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.delivery-header h1 {
+  margin: 0;
+  font-size: 1.3rem;
+  color: #3b82f6;
+}
+
+.delivery-header p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #94a3b8;
+}
+
+.delivery-logout-btn {
+  background: transparent;
+  border: 1px solid #334155;
+  color: #cbd5e1;
+  padding: 8px 15px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.delivery-tabs {
+  display: flex;
+  background-color: white;
+  position: sticky;
+  top: 65px;
+  z-index: 9;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.delivery-tab-btn {
+  flex: 1;
+  padding: 15px;
+  border: none;
+  background: none;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.delivery-tab-btn.active {
+  color: #3b82f6;
+  border-bottom: 3px solid #3b82f6;
+}
+
+.delivery-tab-btn.inactive {
+  color: #64748b;
+  border-bottom: 3px solid transparent;
+}
+
+.delivery-main {
+  padding: 20px;
+  max-width: 600px; /* Keeps it looking like a mobile app even on desktop */
+  margin: 0 auto;
+}
+
+.task-card {
+  background-color: white;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  overflow: hidden;
+  box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05);
+  margin-bottom: 20px;
+}
+
+.task-status-bar {
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.status-cod { background-color: #fffbeb; color: #b45309; }
+.status-prepaid { background-color: #f0fdf4; color: #166534; }
+.status-completed { background-color: #f8fafc; color: #64748b; }
+
+.task-body {
+  padding: 20px;
+}
+
+.address-box {
+  background-color: #f8fafc;
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  margin-bottom: 15px;
+}
+
+.btn-map {
+  width: 100%;
+  padding: 12px;
+  background-color: white;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  color: #0f172a;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.btn-call {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  background-color: #eff6ff;
+  color: #3b82f6;
+  border: 1px solid #bfdbfe;
+  border-radius: 8px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+}
+
+.btn-verify {
+  width: 100%;
+  padding: 16px;
+  background-color: #10b981;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+/* Modal Styles */
+.otp-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0,0,0,0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  padding: 20px;
+}
+
+.otp-modal-content {
+  background-color: white;
+  padding: 30px;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 350px;
+}
+
+.otp-input {
+  width: 100%;
+  padding: 15px;
+  font-size: 2rem;
+  letter-spacing: 8px;
+  text-align: center;
+  border-radius: 8px;
+  border: 2px solid #cbd5e1;
+  margin-bottom: 20px;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.otp-input:focus {
+  border-color: #3b82f6;
+}

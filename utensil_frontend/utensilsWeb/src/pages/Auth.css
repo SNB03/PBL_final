@@ -1,0 +1,156 @@
+/* src/pages/Auth.css */
+
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  /* Premium subtle gradient background */
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.auth-card {
+  background: white;
+  width: 100%;
+  max-width: 440px;
+  padding: 45px 40px;
+  border-radius: 20px;
+  /* Deep, smooth shadow for a "floating" effect */
+  box-shadow: 0 20px 40px -10px rgba(0,0,0,0.08);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.auth-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 25px;
+  color: #64748b;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: color 0.2s;
+}
+
+.auth-back-link:hover { color: #0f172a; }
+
+.auth-header { text-align: center; margin-bottom: 35px; }
+.auth-header h2 { font-size: 2.2rem; margin: 0 0 8px 0; color: #0f172a; font-weight: 900; letter-spacing: -1px; }
+.auth-header h2 span { color: #d35400; /* Brand Orange */ }
+.auth-header p { color: #64748b; margin: 0; font-size: 1rem;}
+
+.auth-error {
+  background-color: #fef2f2;
+  color: #ef4444;
+  padding: 14px;
+  border-radius: 10px;
+  margin-bottom: 25px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border: 1px solid #fecaca;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.form-group { margin-bottom: 20px; }
+.form-group label { display: block; font-size: 0.9rem; font-weight: 700; color: #334155; margin-bottom: 8px; }
+.form-group input {
+  width: 100%;
+  padding: 14px 15px;
+  border-radius: 10px;
+  border: 1px solid #cbd5e1;
+  background-color: #f8fafc; /* Slight contrast against white card */
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.2s;
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.form-group input:focus {
+  border-color: #3b82f6;
+  background-color: white;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+}
+
+/* --- Password Toggle Buttons --- */
+.password-wrapper { position: relative; }
+.password-toggle-btn {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  color: #64748b;
+  padding: 5px;
+  transition: opacity 0.2s;
+}
+.password-toggle-btn:hover { opacity: 0.7; }
+
+/* --- OTP Specific Styles --- */
+.otp-input {
+  font-size: 2rem !important;
+  letter-spacing: 8px;
+  text-align: center;
+  font-weight: 900;
+  font-family: monospace;
+  color: #0f172a;
+}
+.otp-info-box {
+  background-color: #eff6ff;
+  padding: 16px;
+  border-radius: 10px;
+  margin-bottom: 25px;
+  font-size: 0.95rem;
+  color: #1e40af;
+  border: 1px solid #bfdbfe;
+  line-height: 1.5;
+}
+
+.btn-auth-primary {
+  width: 100%;
+  padding: 16px;
+  background-color: #0f172a;
+  color: white;
+  font-weight: bold;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 10px;
+}
+.btn-auth-primary:hover:not(:disabled) {
+  background-color: #1e293b;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
+}
+.btn-auth-primary:disabled { background-color: #94a3b8; cursor: not-allowed; transform: none; box-shadow: none; }
+
+.auth-footer { text-align: center; margin-top: 25px; padding-top: 20px; border-top: 1px solid #f1f5f9; }
+.auth-footer p { color: #64748b; font-size: 0.95rem; margin: 0; }
+.auth-footer a { color: #d35400; font-weight: bold; text-decoration: none; transition: color 0.2s;}
+.auth-footer a:hover { color: #b45309; text-decoration: underline; }
+
+.btn-back-edit {
+  width: 100%;
+  background: none;
+  border: none;
+  color: #64748b;
+  margin-top: 15px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 0.95rem;
+  transition: color 0.2s;
+}
+.btn-back-edit:hover { color: #0f172a; }
+
+.animate-slide-up { animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+.animate-fade-in { animation: fadeIn 0.3s ease-out; }
+@keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }

@@ -1,0 +1,158 @@
+/* src/components/admin/StoreSettings.css */
+
+.settings-container {
+  background-color: #f8fafc;
+  padding: 20px;
+  border-radius: 12px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.settings-header {
+  margin-bottom: 30px;
+}
+
+.settings-header h2 {
+  font-size: 1.8rem;
+  color: #0f172a;
+  margin: 0 0 5px 0;
+}
+
+.settings-header p {
+  color: #64748b;
+  margin: 0;
+}
+
+.settings-card {
+  background-color: white;
+  padding: 30px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+  margin-bottom: 25px;
+}
+
+.settings-card h3 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 25px 0;
+  color: #0f172a;
+  font-size: 1.3rem;
+  border-bottom: 2px solid #f1f5f9;
+  padding-bottom: 15px;
+}
+
+.settings-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 25px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-label {
+  font-weight: 700;
+  color: #334155;
+  margin-bottom: 5px;
+}
+
+.form-helper {
+  font-size: 0.85rem;
+  color: #64748b;
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
+
+.input-with-addon {
+  display: flex;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+
+.input-with-addon:focus-within {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+}
+
+.input-addon {
+  background-color: #f8fafc;
+  padding: 12px 15px;
+  color: #64748b;
+  font-weight: bold;
+  border-right: 1px solid #cbd5e1;
+}
+
+.input-addon.right {
+  border-right: none;
+  border-left: 1px solid #cbd5e1;
+}
+
+.settings-input {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  color: #0f172a;
+  min-width: 0; /* Prevents overflow in grid */
+}
+
+.btn-save-settings {
+  width: 100%;
+  padding: 16px;
+  background-color: #0f172a;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-save-settings:hover {
+  background-color: #1e293b;
+}
+
+.btn-save-settings:disabled {
+  background-color: #94a3b8;
+  cursor: not-allowed;
+}
+
+@media (max-width: 600px) {
+  .settings-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* --- Toast Notification --- */
+.custom-toast {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  padding: 15px 25px;
+  border-radius: 8px;
+  color: white;
+  font-weight: bold;
+  font-size: 1rem;
+  box-shadow: 0 10px 25px -5px rgba(0,0,0,0.2);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  animation: slideInRight 0.3s ease-out forwards;
+}
+
+.toast-success { background-color: #10b981; border: 1px solid #059669; }
+.toast-error { background-color: #ef4444; border: 1px solid #b91c1c; }
+
+@keyframes slideInRight {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}

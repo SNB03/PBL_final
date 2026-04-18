@@ -1,0 +1,135 @@
+/* src/pages/Invoice.css */
+
+.invoice-page-wrapper {
+  background-color: #e2e8f0; /* Darker background to make the white paper pop */
+  min-height: 100vh;
+  padding: 40px 5%;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.invoice-loading {
+  text-align: center;
+  padding: 100px;
+  font-size: 1.5rem;
+  color: #64748b;
+}
+
+/* Actions & Banners */
+.invoice-actions {
+  width: 100%;
+  max-width: 850px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.btn-invoice-back {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #0f172a;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.btn-invoice-print {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #0f172a;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.btn-invoice-print:hover { background-color: #1e293b; }
+
+.invoice-success-banner {
+  width: 100%;
+  max-width: 850px;
+  background-color: #dcfce7;
+  color: #166534;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid #bbf7d0;
+  margin-bottom: 30px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+/* --- THE A4 PAPER DOCUMENT --- */
+.invoice-document {
+  background-color: white;
+  width: 100%;
+  max-width: 850px;
+  padding: 50px;
+  border-radius: 8px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  color: #0f172a;
+}
+
+.invoice-header {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 2px solid #e2e8f0;
+  padding-bottom: 20px;
+  margin-bottom: 30px;
+}
+
+.invoice-brand h1 { margin: 0 0 5px 0; color: #d35400; font-size: 2.2rem; }
+.invoice-brand p { margin: 0; color: #64748b; font-size: 0.9rem; line-height: 1.5; }
+
+.invoice-title { text-align: right; }
+.invoice-title h2 { margin: 0 0 15px 0; font-size: 1.8rem; letter-spacing: 2px; color: #cbd5e1;}
+.invoice-meta-row { margin-bottom: 5px; font-size: 0.95rem; color: #475569;}
+
+.payment-badge { padding: 3px 8px; border-radius: 4px; font-weight: bold; font-size: 0.8rem; }
+.payment-badge.paid { background-color: #dcfce7; color: #166534; }
+.payment-badge.pending { background-color: #fef3c7; color: #b45309; }
+
+.invoice-addresses {
+  display: flex;
+  gap: 40px;
+  margin-bottom: 40px;
+}
+.address-box { flex: 1; background-color: #f8fafc; padding: 15px; border-radius: 8px; border: 1px solid #f1f5f9;}
+.address-box h3 { margin: 0 0 10px 0; font-size: 0.9rem; color: #64748b; text-transform: uppercase; }
+.address-box p { margin: 0; line-height: 1.5; }
+
+.invoice-table { width: 100%; border-collapse: collapse; margin-bottom: 30px; }
+.invoice-table th { background-color: #0f172a; color: white; padding: 12px; text-align: left; font-size: 0.9rem; text-transform: uppercase; }
+.invoice-table td { padding: 15px 12px; border-bottom: 1px solid #e2e8f0; color: #334155; }
+.text-center { text-align: center !important; }
+.text-right { text-align: right !important; }
+
+.invoice-totals-wrapper { display: flex; justify-content: flex-end; margin-bottom: 50px; }
+.invoice-totals { width: 350px; }
+.totals-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f1f5f9; color: #475569;}
+.grand-total { font-size: 1.3rem; font-weight: 900; color: #0f172a; border-top: 2px solid #0f172a; border-bottom: none; margin-top: 5px; padding-top: 15px;}
+
+.invoice-footer { text-align: center; border-top: 2px solid #e2e8f0; padding-top: 20px; color: #0f172a; font-weight: bold;}
+
+/* --- THE MAGIC PRINT CSS --- */
+@media print {
+  /* Hide EVERYTHING that isn't the invoice document */
+  body * { visibility: hidden; }
+  .no-print { display: none !important; }
+
+  /* Make the document fill the page */
+  #printable-invoice, #printable-invoice * { visibility: visible; }
+  #printable-invoice {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    padding: 0;
+    box-shadow: none;
+  }
+}

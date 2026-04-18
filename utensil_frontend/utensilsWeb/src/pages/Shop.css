@@ -1,0 +1,279 @@
+/* src/pages/Shop.css */
+
+.shop-page-wrapper {
+  background-color: #f8fafc;
+  min-height: 100vh;
+  padding-bottom: 60px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.shop-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 5%;
+}
+
+.shop-header {
+  margin-bottom: 30px;
+}
+
+.shop-header h1 {
+  font-size: 2.5rem;
+  color: #0f172a;
+  margin: 0 0 10px 0;
+}
+
+.shop-header p {
+  color: #64748b;
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+/* --- Layout Grid --- */
+.shop-layout {
+  display: flex;
+  gap: 30px;
+  align-items: flex-start; /* CRITICAL for sticky to work */
+  position: relative;
+}
+
+/* --- Left: Sidebar Filters (Sticky) --- */
+.shop-sidebar {
+  width: 280px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 90px; /* Offset for your Navbar height */
+  max-height: calc(100vh - 110px);
+  overflow-y: auto;
+}
+
+/* Hide scrollbar for a cleaner look */
+.shop-sidebar::-webkit-scrollbar { width: 6px; }
+.shop-sidebar::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 10px; }
+
+.filter-card {
+  background-color: white;
+  padding: 25px;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+}
+
+/* Filter Dropdowns & Inputs */
+.filter-group {
+  margin-bottom: 20px;
+}
+
+.filter-group label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #64748b;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.shop-filter-select, .price-input {
+  width: 100%;
+  padding: 12px 15px;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  background-color: #f8fafc;
+  color: #0f172a;
+  font-size: 0.95rem;
+  font-weight: 500;
+  outline: none;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+.shop-filter-select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 15px center;
+  background-size: 16px;
+}
+
+.shop-filter-select:focus, .price-input:focus {
+  border-color: #3b82f6;
+  background-color: white;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.price-range-inputs {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.price-range-inputs span {
+  color: #64748b;
+  font-weight: bold;
+}
+
+/* --- Right: Main Storefront --- */
+.shop-main {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Controls (Search & Sort) */
+/* Update this in your src/pages/Shop.css */
+
+.shop-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+
+  /* 👉 THE MAGIC: Sticky Positioning */
+  position: sticky;
+  top: 67px; /* Adjust this slightly if your Navbar height is different */
+  z-index: 50; /* Keeps it above the product cards */
+
+  /* Background ensures products hide when scrolling behind it */
+  background-color: #f8fafc; /* Matches your page wrapper background */
+
+  /* Padding & Borders for a clean edge */
+  padding: 15px 0 20px 0;
+  margin-bottom: 20px;
+  border-bottom: 1px dashed #cbd5e1;
+}
+
+.shop-search-wrapper {
+  flex: 1;
+  min-width: 250px;
+  position: relative;
+}
+
+.shop-search-input {
+  width: 100%;
+  padding: 14px 14px 14px 45px;
+  border-radius: 12px;
+  border: 1px solid #cbd5e1;
+  font-size: 1rem;
+  font-family: inherit;
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.shop-search-input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.search-icon {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #94a3b8;
+  font-size: 1.2rem;
+}
+
+.shop-sort-select {
+  padding: 14px 20px;
+  border-radius: 12px;
+  border: 1px solid #cbd5e1;
+  background-color: white;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #334155;
+  cursor: pointer;
+  outline: none;
+  font-family: inherit;
+}
+
+/* --- Categorized Display Headers --- */
+.category-group-section {
+  margin-bottom: 50px;
+}
+
+.category-group-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #e2e8f0;
+  padding-bottom: 10px;
+}
+
+.category-group-header h2 {
+  margin: 0;
+  font-size: 1.6rem;
+  color: #0f172a;
+  text-transform: capitalize;
+}
+
+.category-group-count {
+  background-color: #f1f5f9;
+  color: #64748b;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: bold;
+}
+
+/* The Reusable Product Grid */
+.shop-product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 25px;
+}
+
+/* --- Empty State --- */
+.shop-empty-state {
+  background-color: #f8fafc;
+  border-radius: 12px;
+  border: 1px dashed #cbd5e1;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+/* =========================================
+   📱 MOBILE RESPONSIVENESS
+   ========================================= */
+@media (max-width: 900px) {
+  .shop-layout {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .shop-sidebar {
+    width: 100%;
+    position: static; /* Disable sticky on mobile */
+    max-height: none;
+  }
+
+  .filter-card {
+    padding: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Put filters side-by-side on tablets */
+    gap: 15px;
+  }
+
+  /* Span the clear button across both columns */
+  .filter-card > button {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 600px) {
+  .filter-card {
+    grid-template-columns: 1fr; /* Stack filters on phones */
+  }
+
+  .shop-product-grid {
+    grid-template-columns: 1fr; /* Single column products on phones */
+  }
+
+  .shop-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
