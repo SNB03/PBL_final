@@ -138,8 +138,7 @@ const Register = () => {
           <form className="auth-form animate-fade-in" onSubmit={handleRegister}>
             <div className="otp-info-box">
               We've sent a 6-digit verification code to <strong>{formData.email}</strong>.<br/><br/>
-              <span style={{fontSize: '0.8rem', color: '#64748b'}}>*(Check your Spring Boot console to see the mock code!)*</span>
-            </div>
+              </div>
 
             <div className="form-group">
               <label style={{ textAlign: 'center' }}>Enter 6-Digit OTP</label>
