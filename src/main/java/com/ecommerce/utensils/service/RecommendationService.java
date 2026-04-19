@@ -1,6 +1,7 @@
 // src/main/java/com/ecommerce/utensils/service/RecommendationService.java
 package com.ecommerce.utensils.service;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.client.RestClientException;
@@ -13,9 +14,10 @@ import java.util.HashMap;
 
 @Service
 public class RecommendationService {
-
+    @Value("${python.url}")
+    private String pythonUrl;
     // URL of your Python FastAPI FSDP Engine
-    private final String PYTHON_AI_URL = "http://localhost:8000/api/ai/recommend";
+    private final String PYTHON_AI_URL = "pythonUrl/api/ai/recommend";
     private final RestTemplate restTemplate = new RestTemplate();
 
     /**

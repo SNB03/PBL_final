@@ -4,6 +4,7 @@ package com.ecommerce.utensils.controller;
 import com.ecommerce.utensils.model.Product;
 import com.ecommerce.utensils.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
@@ -16,8 +17,9 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/storefront")
 
 public class HomeController {
-
-    private final String PYTHON_AI_URL = "http://localhost:8000/api/ai/home-recommend";
+    @Value("${python.url}")
+    private String pythonUrl;
+    private final String PYTHON_AI_URL = "pythonUrl/api/ai/home-recommend";
     private final RestTemplate restTemplate = new RestTemplate();
 
     @Autowired
