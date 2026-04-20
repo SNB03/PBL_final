@@ -1,43 +1,72 @@
 package com.ecommerce.utensils.service;
 
 import com.ecommerce.utensils.dto.ContactRequest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
-import lombok.Data;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class ContactService {
 
-    @Autowired
-    private JavaMailSender mailSender;
+    @Value("${BREVO_API_KEY}")
+    private String brevoApiKey;
 
-    // This pulls your email from application.properties so you don't hardcode it!
-    @Value("${spring.mail.username}")
-    private String adminEmail;
+    @Value("${app.mail.from-address}")
+    private String verifiedSenderEmail;
+
+    @Value("${app.mail.admin-address}")
+    private String adminInbox;
 
     public void sendContactEmail(ContactRequest request) {
-        SimpleMailMessage message = new SimpleMailMessage();
+        try {
+            RestTemplate restTemplate = new RestTemplate();
+            String url = "https://api.brevo.com/v3/smtp/email";
 
-        // Send it to your store's admin email
-        message.setTo(adminEmail);
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            headers.set("api-key", brevoApiKey);
 
-        // Make the subject clear so it doesn't get lost in your inbox
-        message.setSubject("New Customer Inquiry from: " + request.getName());
+            // Sender is your verified app email
+            Map<String, String> sender = new HashMap<>();
+            sender.put("name", "UtensilPro App");
+            sender.put("email", verifiedSenderEmail);
 
-        // Build the email body
-        String emailBody = "You have received a new message from the UtensilPro Contact Form.\n\n" +
-                "Customer Name: " + request.getName() + "\n" +
-                "Customer Email: " + request.getEmail() + "\n\n" +
-                "Message:\n" + request.getMessage();
+            // Recipient is YOU (the admin)
+            Map<String, String> recipient = new HashMap<>();
+            recipient.put("email", adminInbox);
 
-        message.setText(emailBody);
+            // ReplyTo is the CUSTOMER
+            Map<String, String> replyTo = new HashMap<>();
+            replyTo.put("email", request.getEmail());
+            replyTo.put("name", request.getName());
 
-        // We set the "reply-to" so if you hit 'Reply' in Gmail, it goes straight to the customer!
-        message.setReplyTo(request.getEmail());
+            Map<String, Object> body = new HashMap<>();
+            body.put("sender", sender);
+            body.put("to", List.of(recipient));
+            body.put("replyTo", replyTo);
+            body.put("subject", "New Customer Inquiry from: " + request.getName());
 
-        mailSender.send(message);
+            String htmlContent = "<h3>You have received a new message from the UtensilPro Contact Form.</h3>" +
+                    "<p><strong>Customer Name:</strong> " + request.getName() + "</p>" +
+                    "<p><strong>Customer Email:</strong> " + request.getEmail() + "</p>" +
+                    "<p><strong>Message:</strong><br/>" + request.getMessage().replace("\n", "<br/>") + "</p>";
+            body.put("htmlContent", htmlContent);
+
+            HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<>(body, headers);
+            restTemplate.postForEntity(url, httpEntity, String.class);
+
+            System.out.println("✅ Brevo API Contact Email sent to Admin.");
+
+        } catch (Exception e) {
+            System.err.println("❌ Failed to send Contact Form email via Brevo: " + e.getMessage());
+            throw new RuntimeException("Could not send contact email. Please try again later.");
+        }
     }
 }
