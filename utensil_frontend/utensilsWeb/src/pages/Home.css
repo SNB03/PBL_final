@@ -78,15 +78,23 @@
   margin-bottom: 30px;
 }
 
+/* Update this block in src/pages/Home.css */
 .section-header-row {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-end; /* Aligns the "See all" link to the bottom of the text */
   margin-bottom: 25px;
 }
 
-.section-header-row h2 { margin: 0; color: #0f172a; font-size: 1.6rem; }
-.section-subtitle { color: #64748b; margin: 5px 0 0 0; }
+.section-header-row h2 {
+  color: #0f172a;
+  font-size: 1.6rem;
+}
+
+.section-subtitle {
+  color: #64748b;
+  margin: 6px 0 0 0; /* Ensures proper spacing below the new React Icons */
+}
 
 .view-all-link { color: #d35400; font-weight: bold; text-decoration: none; }
 .view-all-link:hover { text-decoration: underline; }

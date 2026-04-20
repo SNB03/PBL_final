@@ -3,11 +3,16 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
 import { useAuth } from '../../context/AuthContext';
+import { FaStar, FaGlassMartiniAlt, FaFireAlt, FaShoppingCart } from 'react-icons/fa';
 import './FSDPRecommendations.css';
 
 const FSDPRecommendations = ({ currentCategory, currentProductId, showToast }) => {
   const [recommendations, setRecommendations] = useState([]);
-  const [seasonData, setSeasonData] = useState({ title: "Smart Recommendations", icon: "✨", subtitle: "Curated by UtensilPro AI" });
+  const [seasonData, setSeasonData] = useState({
+    title: "Smart Recommendations",
+    icon: <FaStar style={{color: '#8b5cf6'}}/>,
+    subtitle: "Curated by UtensilPro AI"
+  });
 
   const { addToCart } = useCart();
   const { user } = useAuth();
@@ -46,14 +51,26 @@ const FSDPRecommendations = ({ currentCategory, currentProductId, showToast }) =
           const finalRecs = Array.from(uniqueMap.values()).slice(0, 6);
           setRecommendations(finalRecs);
 
-          // Dynamic Header Logic based on Season
+          // Dynamic Header Logic based on Season using React Icons!
           const currentMonth = new Date().getMonth(); // 0 = Jan, 3 = April
-          let context = { title: "Customers Also Liked", icon: "⭐", subtitle: "AI-Curated picks based on your interest" };
+          let context = {
+            title: "Customers Also Liked",
+            icon: <FaStar style={{color: '#f59e0b'}}/>,
+            subtitle: "AI-Curated picks based on your interest"
+          };
 
           if (currentMonth >= 2 && currentMonth <= 5) {
-            context = { title: "Summer & Festive Essentials", icon: "🍹", subtitle: "Trending categories for the current season" };
+            context = {
+              title: "Summer & Festive Essentials",
+              icon: <FaGlassMartiniAlt style={{color: '#10b981'}}/>,
+              subtitle: "Trending categories for the current season"
+            };
           } else if (currentMonth >= 9 && currentMonth <= 11) {
-            context = { title: "Festive Season Top Picks", icon: "🪔", subtitle: "Highly requested items for celebrations" };
+            context = {
+              title: "Festive Season Top Picks",
+              icon: <FaFireAlt style={{color: '#ef4444'}}/>,
+              subtitle: "Highly requested items for celebrations"
+            };
           }
           setSeasonData(context);
         }
@@ -67,14 +84,10 @@ const FSDPRecommendations = ({ currentCategory, currentProductId, showToast }) =
     }
   }, [currentCategory, currentProductId, user]);
 
-  const handleQuickAdd = (product) => {
+  const handleQuickAdd = (e, product) => {
+    e.preventDefault(); // Prevents the link from triggering when clicking "Quick Add"
     addToCart({ ...product, price: Number(product.price) }, 1);
     showToast(`Added ${product.name} to cart!`);
-  };
-
-  const renderImage = (img) => {
-    if (img && img.startsWith('http')) return <img src={img} alt="Product" style={{width: '80%', height: '80%', objectFit: 'contain'}} />;
-    return <span style={{ fontSize: '3rem' }}>{img || '📦'}</span>;
   };
 
   if (recommendations.length === 0) return null;
@@ -90,33 +103,63 @@ const FSDPRecommendations = ({ currentCategory, currentProductId, showToast }) =
       </div>
 
       <div className="fsdp-scroll-wrapper">
-        {recommendations.map(product => (
-          <div key={product.id} className="fsdp-card" style={{ position: 'relative' }}>
+        {recommendations.map(product => {
+          // 👉 NEW: Discount Calculation Logic
+          let sellingPrice = Number(product.price) || 0;
+          let rawMrp = product.originalPri || product.originalPrice || product.mrp || 0;
+          let mrp = Number(rawMrp);
+          let discountPct = 0;
 
-            {/* Display the smart AI Tagline if available */}
-            {product.tagline && (
-              <div style={{
-                position: 'absolute', top: '10px', left: '10px', backgroundColor: '#eff6ff',
-                color: '#1e40af', padding: '4px 8px', borderRadius: '12px', fontSize: '0.7rem',
-                fontWeight: 'bold', zIndex: 10, border: '1px solid #bfdbfe'
-              }}>
-                ✨ {product.tagline.length > 25 ? product.tagline.substring(0, 25) + "..." : product.tagline}
-              </div>
-            )}
+          if (mrp > 0 && mrp !== sellingPrice) {
+            if (sellingPrice > mrp) {
+              let temp = sellingPrice;
+              sellingPrice = mrp;
+              mrp = temp;
+            }
+            discountPct = Math.round(((mrp - sellingPrice) / mrp) * 100);
+          } else {
+            mrp = 0;
+          }
 
-            <Link to={`/product/${product.id}`} style={{ textDecoration: 'none' }}>
-              <div className="fsdp-img-box" style={{ marginTop: product.tagline ? '20px' : '0' }}>
-                {renderImage(product.img)}
+          return (
+            <Link to={`/product/${product.id}`} key={product.id} className="fsdp-card">
+
+              {/* Smart AI Tagline */}
+              {product.tagline && (
+                <div className="fsdp-ai-badge">
+                  <FaStar style={{fontSize: '0.65rem'}}/> {product.tagline.length > 25 ? product.tagline.substring(0, 25) + "..." : product.tagline}
+                </div>
+              )}
+
+              <div className="fsdp-img-box">
+                {product.img && product.img.startsWith('http') ? (
+                  <img src={product.img} alt={product.name} className="fsdp-img-actual" />
+                ) : (
+                  <span className="fsdp-emoji-fallback">{product.img || '📦'}</span>
+                )}
               </div>
-              <h4>{product.name}</h4>
-              <div className="price">₹{product.price.toLocaleString()}</div>
+
+              <div className="fsdp-card-content">
+                <h4 className="fsdp-card-title">{product.name}</h4>
+
+                {/* 👉 NEW: Refined Price Row with Discount */}
+                <div className="fsdp-price-row">
+                  <span className="fsdp-current-price">₹{sellingPrice.toLocaleString()}</span>
+                  {discountPct > 0 && (
+                    <div className="fsdp-discount-group">
+                      <span className="fsdp-strike-mrp">₹{mrp.toLocaleString()}</span>
+                      <span className="fsdp-discount-tag">{discountPct}% OFF</span>
+                    </div>
+                  )}
+                </div>
+
+                <button className="fsdp-btn" onClick={(e) => handleQuickAdd(e, product)}>
+                  <FaShoppingCart /> Quick Add
+                </button>
+              </div>
             </Link>
-
-            <button className="fsdp-btn" onClick={() => handleQuickAdd(product)}>
-              Quick Add
-            </button>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );

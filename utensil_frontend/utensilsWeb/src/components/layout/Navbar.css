@@ -28,11 +28,21 @@
   text-decoration: none;
   display: flex;
   align-items: center;
-  gap: 8px;
+  transition: transform 0.2s ease;
 }
 
 .nav-brand span {
   color: #d35400; /* Signature Brand Color */
+}
+
+.brand-icon {
+  font-size: 1.25rem;
+  margin-right: 8px;
+  color: #d35400;
+}
+
+.nav-brand:active {
+  transform: scale(0.96); /* 👉 Clicking Effect */
 }
 
 /* --- Desktop Links --- */
@@ -47,14 +57,27 @@
   text-decoration: none;
   font-weight: 600;
   font-size: 1rem;
-  transition: color 0.2s;
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
+  transition: color 0.2s ease, transform 0.1s ease;
 }
 
 .nav-item:hover {
   color: #d35400;
+}
+
+.nav-item:active {
+  transform: scale(0.92); /* 👉 Clicking Effect */
+}
+
+.category-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  padding: 0;
+  outline: none;
 }
 
 /* --- Actions (Cart, Login) --- */
@@ -65,21 +88,34 @@
 }
 
 .cart-icon-wrapper {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0 10px;
   position: relative;
-  color: #0f172a;
   display: flex;
   align-items: center;
-  transition: transform 0.2s;
+  transition: transform 0.2s ease;
+  outline: none;
+}
+
+.cart-icon {
+  font-size: 1.5rem;
+  color: #0f172a;
 }
 
 .cart-icon-wrapper:hover {
-  transform: scale(1.05);
+  transform: scale(1.1);
+}
+
+.cart-icon-wrapper:active {
+  transform: scale(0.90); /* 👉 Clicking Effect */
 }
 
 .cart-badge {
   position: absolute;
   top: -8px;
-  right: -10px;
+  right: 0px;
   background-color: #ef4444;
   color: white;
   font-size: 0.75rem;
@@ -100,11 +136,21 @@
   border-radius: 8px;
   text-decoration: none;
   font-weight: bold;
-  transition: background-color 0.2s;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.login-flex {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .btn-nav-login:hover {
   background-color: #1e293b;
+}
+
+.btn-nav-login:active {
+  transform: scale(0.95); /* 👉 Clicking Effect */
 }
 
 /* --- Hamburger Menu (Default Hidden on Desktop) --- */
@@ -112,8 +158,19 @@
   display: none; /* Strictly hidden on desktop */
   background: none;
   border: none;
-  color: #0f172a;
   cursor: pointer;
+  padding: 5px;
+  transition: transform 0.1s ease;
+  outline: none;
+}
+
+.menu-icon {
+  font-size: 1.6rem;
+  color: #0f172a;
+}
+
+.mobile-menu-btn:active {
+  transform: scale(0.85); /* 👉 Clicking Effect */
 }
 
 /* =========================================
@@ -168,7 +225,6 @@
   font-weight: 800;
   color: #0f172a;
 }
-.drawer-header .nav-brand span { color: #d35400; }
 
 .btn-close-drawer {
   background: none;
@@ -176,6 +232,11 @@
   font-size: 1.5rem;
   color: #64748b;
   cursor: pointer;
+  transition: transform 0.1s ease;
+}
+
+.btn-close-drawer:active {
+  transform: scale(0.85); /* 👉 Clicking Effect */
 }
 
 .drawer-links {
@@ -200,11 +261,15 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  transition: color 0.2s;
+  transition: color 0.2s ease, transform 0.1s ease;
 }
 
 .drawer-item:hover {
   color: #d35400;
+}
+
+.drawer-item:active {
+  transform: scale(0.96) translateX(5px); /* 👉 Clicking Effect with slight nudge */
 }
 
 .drawer-footer {
@@ -222,7 +287,7 @@
   font-weight: bold;
   font-size: 1rem;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: background-color 0.2s ease, transform 0.1s ease;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -233,24 +298,16 @@
   background-color: #fee2e2;
 }
 
+.btn-drawer-logout:active {
+  transform: scale(0.96); /* 👉 Clicking Effect */
+}
+
 /* =========================================
    3. RESPONSIVE BREAKPOINTS
    ========================================= */
 @media (max-width: 768px) {
-  /* Hide Desktop Elements */
-  .nav-links-desktop {
-    display: none;
-  }
-  .btn-nav-login {
-    display: none;
-  }
-
-  /* Reveal Mobile Elements */
-  .mobile-menu-btn {
-    display: flex;
-  }
-
-  .nav-actions {
-    gap: 15px;
-  }
+  .nav-links-desktop { display: none; }
+  .btn-nav-login { display: none; }
+  .mobile-menu-btn { display: flex; }
+  .nav-actions { gap: 15px; }
 }

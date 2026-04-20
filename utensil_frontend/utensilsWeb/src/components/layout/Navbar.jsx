@@ -4,13 +4,14 @@ import { Link } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
 import { useAuth } from '../../context/AuthContext';
 import MobileDrawer from './MobileDrawer';
-import './Navbar.css';
 import CategoryModal from '../ui/CategoryModal';
 import CartDrawer from '../CartDrawer';
+import './Navbar.css';
 
 // Icons
 import { FiShoppingCart, FiMenu, FiUser } from 'react-icons/fi';
 import { BiCategory } from 'react-icons/bi';
+import { FaUtensils } from 'react-icons/fa'; // 👉 NEW: Professional logo icon
 
 const Navbar = () => {
   const { cartItems } = useCart();
@@ -29,7 +30,7 @@ const Navbar = () => {
 
           {/* 1. BRAND LOGO */}
           <Link to="/" className="nav-brand">
-            <span style={{ fontSize: '1.5rem', marginRight: '5px' }}>🍳</span> Utensil<span>Pro</span>
+            <FaUtensils className="brand-icon" /> Utensil<span>Pro</span>
           </Link>
 
           {/* 2. DESKTOP LINKS (Hidden on Mobile) */}
@@ -38,11 +39,10 @@ const Navbar = () => {
             <Link to="/shop" className="nav-item">Shop</Link>
 
             <button
-              className="nav-item"
+              className="nav-item category-btn"
               onClick={() => setIsCategoryModalOpen(true)}
-              style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'inherit', fontSize: 'inherit', padding: 0, display: 'flex', alignItems: 'center', gap: '5px' }}
             >
-              <BiCategory style={{ fontSize: '1.1rem' }}/> Categories
+              <BiCategory style={{ fontSize: '1.2rem' }}/> Categories
             </button>
 
             {/* My Orders link only visible if logged in */}
@@ -59,9 +59,8 @@ const Navbar = () => {
             <button
               className="cart-icon-wrapper"
               onClick={() => setIsCartOpen(true)}
-              style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0 10px', position: 'relative', display: 'flex', alignItems: 'center' }}
             >
-              <FiShoppingCart style={{ fontSize: '1.4rem', color: '#0f172a' }} />
+              <FiShoppingCart className="cart-icon" />
               {cartItemCount > 0 && (
                 <span className="cart-badge">{cartItemCount}</span>
               )}
@@ -69,20 +68,19 @@ const Navbar = () => {
 
             {/* Desktop Profile / Login Button */}
             {user ? (
-              <Link to="/profile" className="btn-nav-login" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <Link to="/profile" className="btn-nav-login login-flex">
                 <FiUser style={{ fontSize: '1.1rem' }}/> {user.name.split(' ')[0]}
               </Link>
             ) : (
               <Link to="/login" className="btn-nav-login">Login</Link>
             )}
 
-            {/* 👉 THE FIX: Removed inline 'display' styles so CSS can handle visibility */}
+            {/* Hamburger Button */}
             <button
               className="mobile-menu-btn"
               onClick={() => setIsDrawerOpen(true)}
-              style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '5px' }}
             >
-              <FiMenu style={{ fontSize: '1.5rem', color: '#0f172a' }} />
+              <FiMenu className="menu-icon" />
             </button>
           </div>
 

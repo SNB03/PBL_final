@@ -2,11 +2,10 @@ package com.ecommerce.utensils.controller;
 
 import com.ecommerce.utensils.dto.ContactRequest;
 import com.ecommerce.utensils.service.ContactService;
+import com.ecommerce.utensils.service.EmailService; // 👉 IMPORT YOUR NEW EMAIL SERVICE
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -16,14 +15,15 @@ import java.util.Random;
 
 @RestController
 @RequestMapping("/api/contact")
-
+@CrossOrigin(origins = "http://localhost:5173")
 public class ContactController {
 
     @Autowired
     private ContactService contactService;
 
+    // 👉 FIX: Replaced JavaMailSender with your Brevo API-powered EmailService
     @Autowired
-    private JavaMailSender mailSender;
+    private EmailService emailService;
 
     // Helper class to store OTP and Expiration Time
     private static class OtpDetails {
@@ -44,15 +44,12 @@ public class ContactController {
     public ResponseEntity<?> sendGuestOtp(@RequestParam String email) {
         String otp = String.format("%06d", new Random().nextInt(999999));
 
-        // 👉 NEW: Save OTP with a 10-minute expiration
+        // Save OTP with a 10-minute expiration
         otpStorage.put(email, new OtpDetails(otp, LocalDateTime.now().plusMinutes(10)));
 
         try {
-            SimpleMailMessage message = new SimpleMailMessage();
-            message.setTo(email);
-            message.setSubject("UtensilPro - Contact Form Verification");
-            message.setText("Your verification code is: " + otp + "\n\nThis code will expire in 10 minutes. Please enter this code to submit your message.");
-            mailSender.send(message);
+            // 👉 FIX: Use your EmailService to send the OTP via Brevo API!
+            emailService.sendOtpEmail(email, otp);
 
             return ResponseEntity.ok(Map.of("message", "OTP sent"));
         } catch (Exception e) {
@@ -69,7 +66,7 @@ public class ContactController {
             return ResponseEntity.badRequest().body(Map.of("error", "No OTP requested for this email."));
         }
 
-        // 👉 NEW: Check if 10 minutes have passed
+        // Check if 10 minutes have passed
         if (LocalDateTime.now().isAfter(storedOtpDetails.expiryTime)) {
             otpStorage.remove(email); // Clean up expired OTP
             return ResponseEntity.badRequest().body(Map.of("error", "OTP has expired. Please request a new one."));
