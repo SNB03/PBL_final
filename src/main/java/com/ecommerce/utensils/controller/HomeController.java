@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 public class HomeController {
     @Value("${python.url}")
     private String pythonUrl;
-    private final String PYTHON_AI_URL = "pythonUrl/api/ai/home-recommend";
+    private final String PYTHON_AI_URL = pythonUrl+"/api/ai/home-recommend";
     private final RestTemplate restTemplate = new RestTemplate();
 
     @Autowired
