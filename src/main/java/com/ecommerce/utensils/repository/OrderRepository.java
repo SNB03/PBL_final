@@ -16,4 +16,5 @@ public interface OrderRepository extends MongoRepository<Order, String> {
     List<Order> findByCustomerId(String customerId);
     // Find orders within a specific time range (e.g., today from 00:00 to 23:59)
     List<Order> findByOrderDateBetweenAndStatus(LocalDateTime start, LocalDateTime end, OrderStatus status);
+    List<Order> findByStatusInOrderByOrderDateDesc(List<String> statuses);
 }

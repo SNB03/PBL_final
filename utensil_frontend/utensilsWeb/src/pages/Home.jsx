@@ -99,7 +99,10 @@ const Home = () => {
 
   const availableCategories = [...new Set(products.map(p => p.category).filter(Boolean))];
 
-  const handleSearchSubmit = () => recordSearchHistory(searchTerm);
+const handleSearchSubmit = () => {
+    recordSearchHistory(searchTerm);
+    fetchStoreData(); // Add this line! It instantly triggers a new AI request.
+  };
 
   const handleAddToCart = (product) => {
     recordSearchHistory(searchTerm);
@@ -108,10 +111,11 @@ const Home = () => {
   };
 
   const handleExplore = (product) => {
-    recordSearchHistory(searchTerm);
-    // 👉 FIX: Navigates directly to the specific product details page!
-    navigate(`/product/${product.id}`);
-  };
+      // Change this from recordSearchHistory(searchTerm) to product.category
+      recordSearchHistory(product.category);
+
+      navigate(`/product/${product.id}`);
+    };
 
   return (
     <div className="local-store-home relative">

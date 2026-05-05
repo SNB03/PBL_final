@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -73,9 +74,19 @@ public class OrderAdminController {
 
     // --- GET PAST ORDERS ---
     @GetMapping("/past")
-    public List<Order> getPastOrders() {
-        return orderRepository.findAll().stream()
-                .filter(order -> "COMPLETED".equals(order.getStatus().name()))
-                .collect(Collectors.toList());
+    public ResponseEntity<List<Order>> getPastOrders() {
+        try {
+            // Define what counts as a "Past/Completed" order in your system
+            List<String> completedStatuses = Arrays.asList("COMPLETED", "DELIVERED", "PICKED_UP");
+
+            // Fetch them from the database, sorted newest first
+            List<Order> pastOrders = orderRepository.findByStatusInOrderByOrderDateDesc(completedStatuses);
+
+            return ResponseEntity.ok(pastOrders);
+
+        } catch (Exception e) {
+            System.err.println("❌ Failed to fetch past orders: " + e.getMessage());
+            return ResponseEntity.internalServerError().build();
+        }
     }
 }

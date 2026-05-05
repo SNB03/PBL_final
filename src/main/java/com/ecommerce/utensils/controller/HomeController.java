@@ -1,6 +1,7 @@
 // src/main/java/com/ecommerce/utensils/controller/HomeController.java
 package com.ecommerce.utensils.controller;
 
+import com.ecommerce.utensils.model.Order;
 import com.ecommerce.utensils.model.Product;
 import com.ecommerce.utensils.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,13 +14,16 @@ import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import com.ecommerce.utensils.repository.OrderRepository;
 @RestController
 @RequestMapping("/api/storefront")
 
 public class HomeController {
+    @Autowired
+    private OrderRepository orderRepository;
     @Value("${python.url}")
     private String pythonUrl;
-    private final String PYTHON_AI_URL = pythonUrl+"/api/ai/home-recommend";
+
     private final RestTemplate restTemplate = new RestTemplate();
 
     @Autowired
@@ -31,11 +35,24 @@ public class HomeController {
             @RequestParam(required = false, defaultValue = "") String recentSearches) {
 
         List<String> pastPurchases = new ArrayList<>();
-        if (!userId.equals("guest")) {
-            // Replace with: orderRepository.findProductIdsByUserId(userId);
-            pastPurchases.add("1");
-        }
 
+        // 👉 FIX: Fetch REAL past purchases from MongoDB!
+        if (!userId.equals("guest")) {
+            try {
+                List<Order> userOrders = orderRepository.findByCustomerId(userId);
+                for (Order order : userOrders) {
+                    if (order.getItemsList() != null) {
+                        for (Order.OrderItem item : order.getItemsList()) {
+                            if (item.getProductId() != null) {
+                                pastPurchases.add(item.getProductId());
+                            }
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                System.err.println("Could not load order history for AI: " + e.getMessage());
+            }
+        }
         List<Product> dbProducts = productRepository.findAll();
 
         List<Map<String, Object>> catalogPayload = dbProducts.stream()
@@ -65,10 +82,11 @@ public class HomeController {
         aiRequest.put("catalog", catalogPayload);
 
         try {
+            final String PYTHON_AI_URL = pythonUrl+"/api/ai/home-recommend";
             ResponseEntity<Map> response = restTemplate.postForEntity(PYTHON_AI_URL, aiRequest, Map.class);
             return ResponseEntity.ok(response.getBody());
         } catch (Exception e) {
-            System.err.println("AI Engine Offline. Serving default catalog.");
+            System.err.println("❌ AI Engine Request Failed: " + e.getMessage());
             return ResponseEntity.ok(getFallbackProducts(dbProducts));
         }
     }
