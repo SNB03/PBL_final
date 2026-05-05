@@ -24,6 +24,11 @@ class HomeRecommendationRequest(BaseModel):
     weeks_to_next_festival: int = 4 # 👉 NEW: Crucial for the "Temporal" aspect
     catalog: List[ProductInfo] 
 
+# --- Pydantic Schema for the incoming Java Request ---
+class AdminRecommendRequest(BaseModel):
+    user_id: str
+    past_purchases: List[str]
+    current_month: int
 # =====================================================================
 # THE FSDP KNOWLEDGE GRAPH (Cultural Event Calendar)
 # Represents Event Nodes and their Edge Weights to Product Categories
@@ -45,6 +50,66 @@ FSDP_GRAPH = {
         "bulk_order_threshold": 0.40
     }
 }
+@app.post("/api/ai/recommend")
+def get_store_wide_recommendations(req: AdminRecommendRequest):
+    # 1. Identify Active Temporal Events (Event Nodes) from the FSDP Graph
+    active_events = []
+    for event_name, data in FSDP_GRAPH.items():
+        if req.current_month in data["active_months"]:
+            active_events.append((event_name, data))
+
+    # Default fallback states if no events are active in the current month
+    confidence = 0.50
+    reasoning = "Standard seasonal baseline. No major events detected in the FSDP graph."
+    restock_tags = ["General Inventory"]
+
+    # 2. Graph Traversal & Scoring (The Real Math)
+    if active_events:
+        # Calculate real confidence based on graph activity
+        confidence = 0.85 + (0.05 * len(active_events)) 
+        if confidence > 0.99: confidence = 0.99
+        
+        event_names = [e[0].replace("_", " ") for e in active_events]
+        
+        category_scores = {}
+        bulk_alerts = []
+        
+        # Aggregate edge weights across all active events
+        for event_name, event_data in active_events:
+            for category, weight in event_data["category_edges"].items():
+                if category not in category_scores:
+                    category_scores[category] = 0.0
+                category_scores[category] += weight
+                
+                # Check B2B Bulk threshold (This triggers your B2B surge prediction!)
+                if weight >= event_data["bulk_order_threshold"]:
+                    if category not in bulk_alerts:
+                        bulk_alerts.append(category)
+
+        # Sort categories by highest FSDP edge weight
+        top_categories = sorted(category_scores.items(), key=lambda x: x[1], reverse=True)
+        
+        # Formulate real reasoning based on the math
+        reasoning = f"FSDP Graph activated for: {', '.join(event_names)}. "
+        if bulk_alerts:
+            reasoning += f"🚨 High B2B volume predicted for {', '.join(bulk_alerts)} based on temporal edge weights exceeding threshold."
+        else:
+            reasoning += f"Consumer demand shifting towards {top_categories[0][0]}."
+
+        # Grab the top 3 categories to send as restock recommendations
+        restock_tags = [cat for cat, score in top_categories[:3]]
+
+    # 3. Format the response to flow seamlessly through Java to React
+    return {
+        "overall_confidence": round(confidence, 2),
+        "recommendations": [
+            {
+                # We send the Category Name as the "ID" so it renders beautifully in the UI tags
+                "product_id": tag, 
+                "reasoning": reasoning
+            } for tag in restock_tags
+        ]
+    }
 
 @app.post("/api/ai/home-recommend")
 def get_home_recommendations(req: HomeRecommendationRequest):

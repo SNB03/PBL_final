@@ -121,7 +121,7 @@ const Home = () => {
       <div className="shop-info-banner">
         <div className="shop-info-content">
           <span style={{display: 'flex', alignItems: 'center', gap: '6px'}}><FaMapMarkerAlt style={{color: '#64748b'}}/> Market Yard, Pune</span>
-          <span style={{display: 'flex', alignItems: 'center', gap: '6px'}}><FaPhoneAlt style={{color: '#64748b'}}/> +91 98765 43210</span>
+          <span style={{display: 'flex', alignItems: 'center', gap: '6px'}}><FaPhoneAlt style={{color: '#64748b'}}/> +91 93598 85058</span>
           <span className="open-status" style={{display: 'flex', alignItems: 'center', gap: '6px'}}>
             <FaCircle style={{color: '#10b981', fontSize: '0.6rem'}}/> Open today until 9:00 PM
           </span>

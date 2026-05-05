@@ -16,8 +16,7 @@ import java.util.HashMap;
 public class RecommendationService {
     @Value("${python.url}")
     private String pythonUrl;
-    // URL of your Python FastAPI FSDP Engine
-    private final String PYTHON_AI_URL = "pythonUrl/api/ai/recommend";
+
     private final RestTemplate restTemplate = new RestTemplate();
 
     /**
@@ -28,6 +27,8 @@ public class RecommendationService {
             // 1. Prepare data for the Python Model.
             // For the Admin view, we send a "Global" user and a sample trending item
             // to get the baseline seasonal FSDP recommendations.
+            // URL of your Python FastAPI FSDP Engine
+             final String PYTHON_AI_URL = pythonUrl+"/api/ai/recommend";
             Map<String, Object> requestPayload = new HashMap<>();
             requestPayload.put("user_id", "STORE_GLOBAL");
             requestPayload.put("past_purchases", List.of("PROD-005")); // Replace with actual trending top-seller ID

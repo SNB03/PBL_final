@@ -122,7 +122,7 @@ const Contact = () => {
             </div>
             <div style={{ display: 'flex', gap: '15px', marginBottom: '25px', color: '#475569' }}>
               <FaPhoneAlt style={{ color: '#3b82f6', fontSize: '1.3rem', marginTop: '3px' }} />
-              <div><strong style={{ display: 'block', color: '#0f172a' }}>Phone</strong>+91 98765 43210</div>
+              <div><strong style={{ display: 'block', color: '#0f172a' }}>Phone</strong>+91 93598 85058</div>
             </div>
             <div style={{ display: 'flex', gap: '15px', color: '#475569' }}>
               <FaEnvelope style={{ color: '#3b82f6', fontSize: '1.3rem', marginTop: '3px' }} />

@@ -75,7 +75,7 @@ const Footer = () => {
           <h4>Store Info</h4>
           <ul className="store-info-list">
             <li>📍 Market Yard, Pune, 411037</li>
-            <li>📞 +91 98765 43210</li>
+            <li>📞 +91 93598 85058</li>
             <li>✉️ support@utensilpro.com</li>
             <li>🕒 Mon - Sun: 9:00 AM - 9:00 PM</li>
           </ul>
